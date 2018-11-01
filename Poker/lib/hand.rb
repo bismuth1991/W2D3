@@ -1,5 +1,5 @@
 class Hand
-  attr_reader :hand
+  attr_reader :hand, :value, :highest_card
 
   VALUES = {
     9 => "Straight Flush",
@@ -17,7 +17,7 @@ class Hand
   def initialize(cards)
     #array of five cards
     @hand = cards
-    @value = determine_value
+    @value = determine_value(cards)
     @highest_card = highest_value
   end
 
@@ -32,26 +32,45 @@ class Hand
     hand.map {|card| card.value}.max
   end
 
-  def determine_value
-    if straight_flush?
-      @value = 9
-    elsif four_of_a_kind?
-      @value = 8
-    elsif full_house?
-      @value = 7
-    elsif flush?
-      @value = 6
-    elsif straight?
-      @value = 5
+  def determine_value(cards)
+    if straight_flush?(cards)
+      9
+    elsif four_of_a_kind?(cards)
+      8
+    elsif full_house?(cards)
+      7
+    elsif flush?(cards)
+      6
+    elsif straight?(cards)
+      5
     elsif three_of_a_kind?
-      @value = 4
+      4
     elsif two_pairs?
-      @value = 3
+      3
     elsif one_pair?
-      @value = 2
+      2
     else
-      @value = 1
-    end 
+      1
+    end
+  end
+
+
+  def straight_flush?(cards)
+  end
+
+  def four_of_a_kind?(cards)
+  end
+
+  def full_house?(cards)
+  end
+
+  def flush?(cards)
+  end
+
+  def straight?(cards)
+    value = []
+    @hand.each { |card| value << card.value }
+    value.uniq.length == 5 && value.max - value.min == 4
   end
 
 
